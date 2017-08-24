@@ -1,28 +1,64 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <div class="page">
+      <header>
+        <Topbar />    
+      </header>  
+      <main>
+        <Editor />
+        <Preview />
+      </main>
+
+    </div>
+       
   </div>
 </template>
 
-<script>
-import Hello from './components/Hello'
+<script >
+import Topbar from './components/Topbar'
+import Editor from './components/Editor'
+import Preview from './components/Preview'
 
 export default {
-  name: 'app',
-  components: {
-    Hello
+  name: 'App',
+  components: {     //当前目录下的组件
+    Topbar,Editor,Preview
+  },
+  data: function(){
+    return {
+      text: '你好'
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+.page {
+  min-width: 1024px;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #EAEBEC;
+  > main {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+    align-self: center;
+    width: 100%;
+  }
 }
+
+#editor {
+  width: 30%;
+}
+#preview {
+
+  flex: 1;
+  margin-left: 16px;
+}
+
 </style>
