@@ -54,11 +54,14 @@ export default {
 
 #editor {
   width: 30%;
+  border-radius: 3px;
+  overflow: hidden;
 }
 #preview {
-
   flex: 1;
   margin-left: 16px;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 </style>
