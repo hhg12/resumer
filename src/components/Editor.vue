@@ -2,22 +2,34 @@
   <div id="editor">
     <nav>
       <ol>
-        <li v-for="i in [0,1,2,3,4,5]"
-           v-bind:class="{active:visibleItem===i}"
-          @click="visibleItem=i">
+        <li v-for="(item, index) in resume.config"
+           v-bind:class="{active:seleted===item.field}"
+          @click="seleted=item.field">
           <svg class="icon" aria-hidden="true">
-            <use v-bind:xlink:href="`#icon-${icons[i]}`"></use>
+            <use v-bind:xlink:href="`#icon-${item.icon}`"></use>
           </svg>
         </li>
       </ol>
     </nav>
     <ol class="panels">
-      <li v-bind:class="{active:visibleItem===0}">tab1</li>
-      <li v-bind:class="{active:visibleItem===1}">tab2</li>
-      <li v-bind:class="{active:visibleItem===2}">tab3</li>
-      <li v-bind:class="{active:visibleItem===3}">tab4</li>
-      <li v-bind:class="{active:visibleItem===4}">tab5</li>
-      <li v-bind:class="{active:visibleItem===5}">tab6</li>
+      <li v-for="item in resume.config"
+        :class="{active: seleted === item.field}"
+        >
+        <div v-if="resume[item.field] instanceof Array">
+          <div v-for="item in resume[item.field]">
+            <div class="resumeField" v-for="(value,key) in item">
+              <label >{{key}}</label>
+              <input type="text" v-model="item[key]">
+            </div>
+            <hr>
+          </div>
+        </div>
+        <div v-else class="resumeField" v-for="(value,key) in resume[item.field]">
+          <label>{{key}}</label>
+          <input type="text" v-model="resume[item.field][key]">
+        </div>
+         
+        </li>
     </ol>
   </div>
 </template>
@@ -27,10 +39,44 @@ export default {
   name: 'Editor',
   data: function(){
     return {
-      visibleItem: 0,
-      icons: ['shenfenzhengzhengjian','gongsi','book','xin','jiangbei01','3-copy']
-
+      seleted: 'profile',
+      resume: {
+        config: [ 
+          {field: 'profile', icon: 'shenfenzhengzhengjian'},
+          {field: 'work', icon: 'gongsi'},
+          {field: 'education', icon: 'book'},
+          {field: 'projects', icon: 'xin'},
+          {field: 'awards', icon: 'jiangbei01'},
+          {field: 'contacts', icon: '3-copy'}
+        ],
+        profile: {
+          name: '',
+          city: '',
+          title: ''
+        },
+        work: [
+          {conpany: 'Al', content: '我的第二份工作是'},
+          {conpany: 'tx', content: '我的第一份工作是'}
+        ],
+        education: [
+            { school: 'AL', content: '文字' },
+            { school: 'TX', content: '文字' },
+        ],
+        projects: [
+          { name: 'project A', content: '文字' },
+          { name: 'project B', content: '文字' },
+        ],
+        awards: [
+          { name: 'awards A', content: '文字' },
+          { name: 'awards B', content: '文字' },
+        ],
+        contacts: [
+          { contact: 'phone', content: '13812345678' },
+          { contact: 'qq', content: '12345678' },
+        ]
+      }
     }
+
   }
 }
 </script>
@@ -41,7 +87,7 @@ export default {
     fill: white;
 }
 #editor {
-  color: red;
+  color: black;
   min-height: 100px;
   background: #fff;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
@@ -60,11 +106,28 @@ export default {
       }
     }
   }
-  .panels li{
-    display: none;
-    &.active {
-      display: block;
+  .panels{
+    flex: 1;
+    li{
+      display: none;
+      padding: 24px;
+      &.active {
+        display: block;
+      }
     }
+  }
+}
+.resumeField {
+  margin-bottom: 16px;
+  > label {
+    display: block;
+    font-size: 24px;
+  }
+  > input {
+    height: 40px;
+    box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.25);
+    width: 100%;
+    margin: 16px 0;
   }
 }
 </style>
